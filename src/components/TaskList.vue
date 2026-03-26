@@ -5,13 +5,15 @@ const store = useTaskStore()
 </script>
 
 <template>
-  <div>
-    <h2>Список задач</h2>
+  <ul>
+    <li v-for="task in store.tasks" :key="task.id">
+      <span @click="store.toggleTask(task.id)">
+        {{ task.title }} - {{ task.done ? '✔' : '❌' }}
+      </span>
 
-    <ul>
-      <li v-for="task in store.tasks" :key="task.id">
-        {{ task.title }} ({{ task.done ? 'done' : 'active' }})
-      </li>
-    </ul>
-  </div>
+      <button @click="store.removeTask(task.id)">
+        Видалити
+      </button>
+    </li>
+  </ul>
 </template>
