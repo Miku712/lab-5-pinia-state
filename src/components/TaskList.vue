@@ -6,7 +6,7 @@ const store = useTaskStore()
 
 <template>
   <ul>
-    <li v-for="task in store.tasks" :key="task.id">
+    <li v-for="task in store.filteredTasks" :key="task.id">
       <span @click="store.toggleTask(task.id)">
         {{ task.title }} - {{ task.done ? '✔' : '❌' }}
       </span>
