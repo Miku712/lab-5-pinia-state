@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 export const useTaskStore = defineStore('taskStore', {
     state: () => ({
-    tasks: [],
+    tasks: JSON.parse(localStorage.getItem('tasks')) || [],
     filter: 'all'
     }),
 
@@ -26,22 +26,32 @@ export const useTaskStore = defineStore('taskStore', {
       }
     },
 
-  actions: {
+    actions: {
+
+    saveToStorage() {
+      localStorage.setItem('tasks', JSON.stringify(this.tasks))
+    },
+
     addTask(title) {
       this.tasks.push({
         id: Date.now(),
         title,
         done: false
       })
+      this.saveToStorage()
     },
 
     toggleTask(id) {
       const task = this.tasks.find(t => t.id === id)
-      if (task) task.done = !task.done
+      if (task) {
+        task.done = !task.done
+      }
+      this.saveToStorage()
     },
 
     removeTask(id) {
       this.tasks = this.tasks.filter(t => t.id !== id)
+      this.saveToStorage()
     }
   }
 })
